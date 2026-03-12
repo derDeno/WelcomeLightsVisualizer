@@ -73,6 +73,7 @@
     let TEMPLATES = [];
     let timelineCharts = [];
     const TEMPLATE_MANIFEST_PATH = "templates/index.json";
+    const SELECTED_MODEL_STORAGE_KEY = "welcome-lights-selected-model";
     const TIMELINE_PLAYHEAD_PLUGIN = {
       id: "timelinePlayhead",
       afterDatasetsDraw(chart, args, options) {
@@ -634,6 +635,65 @@
 
     function getSelectedVehicleConfig() {
       return getVehicleConfig(appState.selectedModel);
+    }
+
+    function getModelStorage() {
+      try {
+        if (window.localStorage) {
+          return window.localStorage;
+        }
+      } catch (error) {
+        // Fall through to session storage when local storage is unavailable.
+      }
+
+      try {
+        if (window.sessionStorage) {
+          return window.sessionStorage;
+        }
+      } catch (error) {
+        return null;
+      }
+
+      return null;
+    }
+
+    function isKnownModelId(modelId) {
+      if (!carModelSelect || !modelId) {
+        return false;
+      }
+
+      return Array.from(carModelSelect.options).some((option) => option.value === modelId);
+    }
+
+    function loadStoredSelectedModel() {
+      const storage = getModelStorage();
+      if (!storage) {
+        return "";
+      }
+
+      try {
+        const storedModelId = storage.getItem(SELECTED_MODEL_STORAGE_KEY) || "";
+        return isKnownModelId(storedModelId) ? storedModelId : "";
+      } catch (error) {
+        return "";
+      }
+    }
+
+    function persistSelectedModel(modelId) {
+      const storage = getModelStorage();
+      if (!storage) {
+        return;
+      }
+
+      try {
+        if (modelId) {
+          storage.setItem(SELECTED_MODEL_STORAGE_KEY, modelId);
+        } else {
+          storage.removeItem(SELECTED_MODEL_STORAGE_KEY);
+        }
+      } catch (error) {
+        return;
+      }
     }
 
     function normalizeChannelIdValue(channelId) {
@@ -1688,6 +1748,7 @@
       if (carModelSelect) {
         carModelSelect.value = modelId;
       }
+      persistSelectedModel(modelId);
       setSectionVisibility(payloadCard, Boolean(modelId));
 
       if (selectedModelCopy) {
@@ -1755,10 +1816,13 @@
         try {
           const template = await loadTemplateById(templateId);
           applyTemplate(template);
+          return true;
         } catch (error) {
           console.error("Template loading failed", error);
         }
       }
+
+      return false;
     }
 
     function validateAndRender() {
@@ -2065,11 +2129,14 @@
 
       if (isBuildPage) {
         bindBuildPageEvents();
-        setSelectedModel("");
         setSectionVisibility(buildStack, false);
         clearAll();
         setInputMode("raw");
-        await initFromUrl();
+
+        const initializedFromUrl = await initFromUrl();
+        if (!initializedFromUrl) {
+          setSelectedModel(loadStoredSelectedModel());
+        }
       }
     }
 

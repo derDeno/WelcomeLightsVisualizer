@@ -17,6 +17,8 @@ If you have a custom template you want to share with others or want to be part o
 4. fill all required fields
 5. submit
 
+The template table is driven by `templates/index.json`. That manifest is generated automatically from every JSON file in `templates/` by `scripts/generate_template_manifest.py`, and the GitHub Action in `.github/workflows/update-template-manifest.yml` keeps it in sync on pushes.
+
 
 ## Credits
 This tool is based on the great work and research of <a href="https://github.com/bredmich/AdvancedWelcomeLightVisualizer" target="_blank" rel="noreferrer">@bredmich</a> and <a href="https://github.com/psde/AdvancedWelcomeLightVisualizer" target="_blank" rel="noreferrer">@psde</a>

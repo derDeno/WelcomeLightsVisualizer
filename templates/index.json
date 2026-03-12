@@ -1,11 +1,13 @@
 [
-  "channel-identifier-simr.json",
-  "bmw-original-g20-eu-laser.json",
-  "bmw-g20-2022-eu-laser-left-right-swipe-v15.json",
+  "bmw-g20-2020-eu-laser-dno.json",
+  "bmw-g20-2020-eu-laser-original.json",
   "bmw-g20-2022-eu-laser-left-right-swipe-v15-short.json",
+  "bmw-g20-2022-eu-laser-left-right-swipe-v15.json",
   "bmw-g20-2022-us-laser-original.json",
   "bmw-g20-2023-eu-laser-original.json",
   "bmw-g30-2020-eu-laser-original.json",
   "bmw-g80-2022-eu-laser-original.json",
-  "bmw-g82-2022-eu-laser-original.json"
+  "bmw-g82-2022-eu-laser-original.json",
+  "bmw-original-g20-eu-laser.json",
+  "channel-identifier-simr.json"
 ]
