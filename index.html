@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Lights Visualizer</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="build">
+  <header class="topbar">
+    <div class="brand">
+      <h3>Welcome Lights Visualizer</h3>
+    </div>
+    <nav class="nav-tabs" aria-label="Primary">
+      <a class="nav-tab active" href="index.html">Animation Builder</a>
+      <a class="nav-tab" href="templates.html">Templates</a>
+    </nav>
+  </header>
+  <main class="shell">
+    <section class="page active">
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h3>Vehicle Model</h3>
+          </div>
+        </div>
+        <div class="model-select-wrap">
+          <select id="car-model-select">
+            <option value="">Select a vehicle</option>
+            <option value="generic">Generic</option>
+            <option value="bmw-g20-2020-laser">BMW G20 2020 Laser</option>
+            <option value="bmw-g22-2020-laser">BMW G22 2020 Laser</option>
+            <option value="bmw-g30-2020-laser">BMW G30 2020 EU Laser</option>
+            <option value="bmw-g80-2022-laser">BMW G80 2022 EU Laser</option>
+            <option value="bmw-g82-2022-laser">BMW G82 2022 EU Laser</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="card gated-card" id="payload-card">
+        <div class="section-head">
+          <div>
+            <h3>Payload Inputs</h3>
+          </div>
+        </div>
+        <div class="subtabs">
+          <button class="subtab active" type="button" data-input-mode-target="raw">Raw Input</button>
+          <button class="subtab" type="button" data-input-mode-target="assistant">Assistant</button>
+        </div>
+
+        <div class="input-mode active" data-input-mode="raw">
+          <div class="inputs-grid">
+            <div class="field">
+              <div class="field-header">
+                <label for="left-stage-1">Left headlight · Staging 1</label>
+                <span class="hint">Max 252 bytes</span>
+              </div>
+              <textarea id="left-stage-1" spellcheck="false" placeholder="Paste left staging 1 payload"></textarea>
+              <div class="byte-meter">
+                <div class="meter-meta"><span id="left-stage-1-count">0 bytes</span><span id="left-stage-1-capacity">0%</span></div>
+                <div class="meter"><span id="left-stage-1-meter"></span></div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-header">
+                <label for="left-stage-2">Left headlight · Staging 2</label>
+                <span class="hint">Max 168 bytes</span>
+              </div>
+              <textarea id="left-stage-2" spellcheck="false" placeholder="Paste left staging 2 payload"></textarea>
+              <div class="byte-meter">
+                <div class="meter-meta"><span id="left-stage-2-count">0 bytes</span><span id="left-stage-2-capacity">0%</span></div>
+                <div class="meter"><span id="left-stage-2-meter"></span></div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-header">
+                <label for="right-stage-1">Right headlight · Staging 1</label>
+                <span class="hint">Max 252 bytes</span>
+              </div>
+              <textarea id="right-stage-1" spellcheck="false" placeholder="Paste right staging 1 payload"></textarea>
+              <div class="byte-meter">
+                <div class="meter-meta"><span id="right-stage-1-count">0 bytes</span><span id="right-stage-1-capacity">0%</span></div>
+                <div class="meter"><span id="right-stage-1-meter"></span></div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-header">
+                <label for="right-stage-2">Right headlight · Staging 2</label>
+                <span class="hint">Max 168 bytes</span>
+              </div>
+              <textarea id="right-stage-2" spellcheck="false" placeholder="Paste right staging 2 payload"></textarea>
+              <div class="byte-meter">
+                <div class="meter-meta"><span id="right-stage-2-count">0 bytes</span><span id="right-stage-2-capacity">0%</span></div>
+                <div class="meter"><span id="right-stage-2-meter"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-mode" data-input-mode="assistant">
+          <div class="assistant-layout">
+            <section class="assistant-column">
+              <div class="section-head">
+                <div>
+                  <h3>Left Sequences</h3>
+                </div>
+                <button class="secondary" id="assistant-sync-left-to-right" type="button">Sync To Right</button>
+              </div>
+              <div id="assistant-left" class="assistant-stack"></div>
+              <div class="actions assistant-column-actions">
+                <button class="secondary" id="assistant-add-left" type="button">Add Left Channel</button>
+              </div>
+            </section>
+            <section class="assistant-column">
+              <div class="section-head">
+                <div>
+                  <h3>Right Sequences</h3>
+                </div>
+                <button class="secondary" id="assistant-sync-right-to-left" type="button">Sync To Left</button>
+              </div>
+              <div id="assistant-right" class="assistant-stack"></div>
+              <div class="actions assistant-column-actions">
+                <button class="secondary" id="assistant-add-right" type="button">Add Right Channel</button>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="analyze-button" type="button">Validate &amp; Preview</button>
+          <button class="ghost" id="clear-button" type="button">Clear</button>
+        </div>
+        <div class="validation-feedback" id="validation-feedback" aria-live="polite"></div>
+        <div class="validation-feedback-details" id="validation-feedback-details"></div>
+      </section>
+
+      <section class="build-stack gated-card" id="build-stack">
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Animation Preview</h2>
+              <p>Each detected channel becomes a light bar. During playback, brightness is interpolated across every duration step.</p>
+            </div>
+          </div>
+          <div class="playback">
+            <button class="secondary" id="play-toggle" type="button">Play</button>
+            <input id="timeline-slider" type="range" min="0" max="1000" step="1" value="0">
+            <div class="timeline-meta" id="timeline-meta">No valid payload parsed yet.</div>
+          </div>
+          <div class="car-stage" id="preview-stage"></div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h3>Normalized Output</h3>
+              <p>These fields mirror your parsed bytes in uppercase two-digit format for clean copying.</p>
+            </div>
+          </div>
+          <div class="normalized-grid">
+            <div class="normalized-card">
+              <label for="normalized-left-stage-1">Left staging 1</label>
+              <textarea id="normalized-left-stage-1" readonly></textarea>
+              <button class="secondary normalized-copy" type="button" data-copy-target="normalized-left-stage-1">Copy To Clipboard</button>
+            </div>
+            <div class="normalized-card">
+              <label for="normalized-left-stage-2">Left staging 2</label>
+              <textarea id="normalized-left-stage-2" readonly></textarea>
+              <button class="secondary normalized-copy" type="button" data-copy-target="normalized-left-stage-2">Copy To Clipboard</button>
+            </div>
+            <div class="normalized-card">
+              <label for="normalized-right-stage-1">Right staging 1</label>
+              <textarea id="normalized-right-stage-1" readonly></textarea>
+              <button class="secondary normalized-copy" type="button" data-copy-target="normalized-right-stage-1">Copy To Clipboard</button>
+            </div>
+            <div class="normalized-card">
+              <label for="normalized-right-stage-2">Right staging 2</label>
+              <textarea id="normalized-right-stage-2" readonly></textarea>
+              <button class="secondary normalized-copy" type="button" data-copy-target="normalized-right-stage-2">Copy To Clipboard</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h3>Channel Timelines</h3>
+              <p>Blue is left, red is right, green marks matching left/right curves for the same channel.</p>
+            </div>
+          </div>
+          <div id="timeline-list" class="timeline-list">
+            <div class="empty-state">Add payload bytes and run validation to build the preview.</div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+  <footer class="footer">
+    Copyright &copy; 2026 <a href="https://github.com/derDeno/WelcomeLightsVisualizer" target="_blank" rel="noreferrer">WelcomeLightVisualizer</a> - Based on the work and research of 
+    <a href="https://github.com/bredmich/AdvancedWelcomeLightVisualizer" target="_blank" rel="noreferrer">@bredmich</a> and 
+    <a href="https://github.com/psde/AdvancedWelcomeLightVisualizer" target="_blank" rel="noreferrer">@psde</a>.
+  </footer>
+
+  <script src="js/vehicles.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

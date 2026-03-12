@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Lights Visualizer</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="templates">
+  <header class="topbar">
+    <div class="brand">
+      <h3>Welcome Lights Visualizer</h3>
+    </div>
+    <nav class="nav-tabs" aria-label="Primary">
+      <a class="nav-tab" href="index.html">Animation Builder</a>
+      <a class="nav-tab active" href="templates.html">Templates</a>
+    </nav>
+  </header>
+  <main class="shell">
+    <section class="page active">
+      <section>
+        <h2>Start With A Template</h2>
+      </section>
+
+      <section class="card table-shell">
+        <table class="template-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Author</th>
+              <th>Car</th>
+              <th>Spec</th>
+              <th>LCI</th>
+              <th>Laser Light</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="template-list"></tbody>
+        </table>
+      </section>
+
+      <section class="card submit-card">
+        <div>
+          <h3>Send A Template</h3>
+          <p>Submit a new template through the GitHub issue form.</p>
+        </div>
+        <a class="primary action-link" href="https://github.com/derDeno/WelcomeLightsVisualizer/issues/new?template=new-template-submission.yml" target="_blank" rel="noreferrer">New Template</a>
+      </section>
+
+    </section>
+  </main>
+  <footer class="footer">
+    Copyright &copy; 2026 <a href="https://github.com/derDeno/WelcomeLightsVisualizer" target="_blank" rel="noreferrer">WelcomeLightVisualizer</a> - Based on the work and research of 
+    <a href="https://github.com/bredmich/AdvancedWelcomeLightVisualizer" target="_blank" rel="noreferrer">@bredmich</a> and 
+    <a href="https://github.com/psde/AdvancedWelcomeLightVisualizer" target="_blank" rel="noreferrer">@psde</a>.
+  </footer>
+
+  <script src="js/vehicles.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
