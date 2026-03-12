@@ -1,0 +1,151 @@
+name: New Template Submission
+description: Submit a new welcome light template for inclusion in the project
+title: "[Template] "
+labels:
+  - template-submission
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to submit a new welcome light template.
+
+        Requirements:
+        - `Left Staging 1` and `Right Staging 1` must fit within 252 bytes each
+        - `Left Staging 2` and `Right Staging 2` must fit within 168 bytes each
+        - Payloads can be comma-separated, space-separated, or continuous hex bytes
+        - End each sequence set with `00 00 00` and pad remaining bytes with `00`
+
+  - type: input
+    id: template_name
+    attributes:
+      label: Template name
+      description: Display name shown in the templates table
+      placeholder: BMW Original
+    validations:
+      required: true
+
+  - type: input
+    id: author
+    attributes:
+      label: Author
+      placeholder: your name or handle
+    validations:
+      required: true
+
+  - type: input
+    id: car
+    attributes:
+      label: Car
+      description: Model identifier
+      placeholder: G20
+    validations:
+      required: true
+
+  - type: dropdown
+    id: spec
+    attributes:
+      label: Spec
+      options:
+        - EU
+        - US
+    validations:
+      required: true
+
+  - type: dropdown
+    id: lci
+    attributes:
+      label: LCI
+      options:
+        - "No"
+        - "Yes"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: laser_light
+    attributes:
+      label: Laser Light
+      options:
+        - "No"
+        - "Yes"
+    validations:
+      required: true
+
+  - type: input
+    id: source_label
+    attributes:
+      label: Source label
+      description: Short source text shown in metadata
+      placeholder: Bimmerpost post #134
+
+  - type: input
+    id: source_url
+    attributes:
+      label: Source URL
+      placeholder: https://example.com
+
+  - type: input
+    id: preview_url
+    attributes:
+      label: Preview URL
+      description: Optional external preview/demo link
+      placeholder: https://example.com
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Notes, behavior summary, testing status, or fitment details
+      placeholder: Describe what this animation does and any important caveats.
+
+  - type: textarea
+    id: left_stage_1
+    attributes:
+      label: Left Staging 1
+      description: Max 252 bytes
+      placeholder: 01 00 07 05 32 0A 32
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: left_stage_2
+    attributes:
+      label: Left Staging 2
+      description: Max 168 bytes
+      placeholder: 00 00 00
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: right_stage_1
+    attributes:
+      label: Right Staging 1
+      description: Max 252 bytes
+      placeholder: 01 00 07 05 32 0A 32
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: right_stage_2
+    attributes:
+      label: Right Staging 2
+      description: Max 168 bytes
+      placeholder: 00 00 00
+      render: text
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checklist
+      options:
+        - label: I confirmed the payloads use valid hex bytes
+          required: true
+        - label: I confirmed the staging byte counts fit the documented limits
+          required: true
+        - label: I confirmed the sequence data matches the intended animation
+          required: true
