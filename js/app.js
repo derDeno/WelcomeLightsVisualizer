@@ -1574,7 +1574,7 @@
           return response.json();
         }));
 
-        TEMPLATES = loadedTemplates;
+        TEMPLATES = loadedTemplates.map(normalizeTemplate);
         renderTemplates();
       } catch (error) {
         console.error("Template loading failed", error);
@@ -1588,11 +1588,52 @@
       if (!response.ok) {
         throw new Error("Template file " + templateId + ".json failed with status " + response.status + ".");
       }
-      return response.json();
+      const template = await response.json();
+      return normalizeTemplate(template);
     }
 
     function selectedModelLabel(modelId) {
       return getVehicleConfig(modelId).name;
+    }
+
+    function normalizeTemplateStageBytes(stageBytes) {
+      if (!Array.isArray(stageBytes)) {
+        return [];
+      }
+
+      return stageBytes.map((value) => {
+        if (typeof value === "number" && Number.isFinite(value)) {
+          return clamp(Math.round(value), 0, 255);
+        }
+
+        if (typeof value === "string") {
+          const normalized = value.trim().replace(/^0x/i, "");
+          if (/^[0-9a-fA-F]{1,2}$/.test(normalized)) {
+            return parseInt(normalized, 16);
+          }
+
+          const decimalValue = Number(normalized);
+          if (Number.isFinite(decimalValue)) {
+            return clamp(Math.round(decimalValue), 0, 255);
+          }
+        }
+
+        return 0;
+      });
+    }
+
+    function normalizeTemplate(template) {
+      if (!template || typeof template !== "object") {
+        return template;
+      }
+
+      return {
+        ...template,
+        leftStage1: normalizeTemplateStageBytes(template.leftStage1),
+        leftStage2: normalizeTemplateStageBytes(template.leftStage2),
+        rightStage1: normalizeTemplateStageBytes(template.rightStage1),
+        rightStage2: normalizeTemplateStageBytes(template.rightStage2)
+      };
     }
 
     function setSectionVisibility(element, visible) {
