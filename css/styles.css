@@ -770,6 +770,20 @@
 
     .playback-speed-control select {
       min-width: 84px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(4, 11, 19, 0.85);
+      color: var(--text);
+      padding: 13px 14px;
+      font: 0.95rem var(--font-ui);
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    .playback-speed-control select:focus {
+      border-color: rgba(107, 226, 255, 0.6);
+      box-shadow: 0 0 0 4px rgba(107, 226, 255, 0.12);
+      transform: translateY(-1px);
     }
 
     input[type="range"] {
