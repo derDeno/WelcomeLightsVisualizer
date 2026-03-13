@@ -147,6 +147,15 @@
           </div>
           <div class="playback">
             <button class="secondary" id="play-toggle" type="button">Play</button>
+            <label class="playback-speed-control" for="playback-speed">
+              <span>Speed</span>
+              <select id="playback-speed">
+                <option value="0.5">0.5x</option>
+                <option value="1" selected>1.0x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2.0x</option>
+              </select>
+            </label>
             <input id="timeline-slider" type="range" min="0" max="1000" step="1" value="0">
             <div class="timeline-meta" id="timeline-meta">No valid payload parsed yet.</div>
           </div>

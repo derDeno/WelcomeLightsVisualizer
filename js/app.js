@@ -37,6 +37,7 @@
     const timelineSlider = document.getElementById("timeline-slider");
     const timelineMeta = document.getElementById("timeline-meta");
     const playToggle = document.getElementById("play-toggle");
+    const playbackSpeedSelect = document.getElementById("playback-speed");
     const inputModeTabs = Array.from(document.querySelectorAll("[data-input-mode-target]"));
     const inputModes = Array.from(document.querySelectorAll("[data-input-mode]"));
     const assistantLeft = document.getElementById("assistant-left");
@@ -54,6 +55,7 @@
       channels: [],
       totalMs: 0,
       currentMs: 0,
+      playbackSpeed: 1,
       playing: false,
       animationFrame: 0,
       lastTick: 0,
@@ -1958,7 +1960,7 @@
       const delta = timestamp - appState.lastTick;
       appState.lastTick = timestamp;
 
-      appState.currentMs += delta;
+      appState.currentMs += delta * appState.playbackSpeed;
       if (appState.currentMs > appState.totalMs) {
         appState.currentMs = 0;
       }
@@ -2091,6 +2093,11 @@
       onElement(document.getElementById("assistant-sync-left-to-right"), "click", () => syncAssistantSide("left", "right"));
       onElement(document.getElementById("assistant-sync-right-to-left"), "click", () => syncAssistantSide("right", "left"));
       onElement(playToggle, "click", togglePlayback);
+      onElement(playbackSpeedSelect, "change", () => {
+        const nextSpeed = Number(playbackSpeedSelect.value);
+        appState.playbackSpeed = Number.isFinite(nextSpeed) && nextSpeed > 0 ? nextSpeed : 1;
+        appState.lastTick = 0;
+      });
 
       inputModeTabs.forEach((tab) => {
         tab.addEventListener("click", () => {
@@ -2132,6 +2139,10 @@
         setSectionVisibility(buildStack, false);
         clearAll();
         setInputMode("raw");
+        if (playbackSpeedSelect) {
+          playbackSpeedSelect.value = "1";
+        }
+        appState.playbackSpeed = 1;
 
         const initializedFromUrl = await initFromUrl();
         if (!initializedFromUrl) {

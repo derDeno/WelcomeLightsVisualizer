@@ -760,6 +760,18 @@
       margin-bottom: 18px;
     }
 
+    .playback-speed-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .playback-speed-control select {
+      min-width: 84px;
+    }
+
     input[type="range"] {
       width: min(100%, 420px);
       accent-color: var(--accent);
