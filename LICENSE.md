@@ -1,5 +1,5 @@
 Required Notice: Copyright (c) 2024-2026 derDeno (DNO). All rights reserved.
-Project: PandaGarage (Hardware and Firmware for custom ESP32 PCB)
+Project: WelcomeLightsVisualizer (Software)
 
 # PolyForm Noncommercial License 1.0.0
 
